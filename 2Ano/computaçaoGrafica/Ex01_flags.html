@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Flags</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div style="text-align: center;"> <!-- centralizar o texto de H1 !-->
+        <h1>Draw Flags</h1>
+        <div style="margin-bottom: 10px;">  <!-- margem inferior para espaçamento !-->
+            <button onclick="drawGermany()">Germany</button>
+            <button onclick="drawFrance()">France</button>
+            <button onclick="drawSweden()">Sweden</button>
+            <button onclick="drawSwitzerland()">Switzerland</button> <!-- botões para desenhar as bandeiras -->
+        </div>
+        <canvas id="flagCanvas" width="300" height="200"></canvas>  <!-- canvas para desenhar as bandeiras -->
+    </div>
+
+
+    <script>
+        const canvas = document.getElementById('flagCanvas'); // obter o elemento canvas
+        const ctx = canvas.getContext('2d'); // definir contexto 2D, para desenhar em 2D
+
+
+        let W = canvas.width;
+        let H = canvas.height;
+
+        function drawGermany() {
+            ctx.fillStyle = "black"
+            ctx.fillRect(0, 0, W, H / 3); // preencher o retângulo com preto
+
+            ctx.fillStyle = "red"
+            ctx.fillRect(0, H / 3, W, H / 3); // preencher o retângulo com vermelho
+
+            ctx.fillStyle = "yellow"
+            ctx.fillRect(0, 2 * H / 3, W, H / 3); // preencher o retângulo com amarelo
+        }
+
+        function drawFrance() {
+            ctx.fillStyle = "blue"
+            ctx.fillRect(0, 0, W / 3, H); // preencher o retângulo com azul
+
+            ctx.fillStyle = "white"
+            ctx.fillRect(W / 3, 0, W / 3, H); // preencher o retângulo com branco
+
+            ctx.fillStyle = "red"
+            ctx.fillRect(2 * W / 3, 0, W / 3, H); // preencher o retângulo com vermelho
+        }
+
+        function drawSweden() {
+            ctx.fillStyle = "blue"
+            ctx.fillRect(0, 0, W, H); // preencher o retângulo com azul
+
+            ctx.fillStyle = "yellow"
+            ctx.fillRect(50, 0, 20, H); // preencher o retângulo com amarelo
+
+            ctx.fillStyle = "yellow"
+            ctx.fillRect(0, 80, W, 20); // preencher o retângulo com amarelo
+        }
+
+        function drawSwitzerland() {
+            ctx.clearRect(0, 0, W, H); // limpar o canvas antes de desenhar a bandeira
+
+            ctx.fillStyle = "red"
+            ctx.fillRect(50, 0, 200, 200); // preencher o retângulo com vermelho
+
+            ctx.fillStyle = "white"
+            ctx.fillRect(140, 50, 20, 100); // preencher o retângulo com branco
+
+            ctx.fillStyle = "white"
+            ctx.fillRect(100, 90, 100, 20); // preencher o retângulo com branco
+        }
+    </script>
+</body>
+
+</html>

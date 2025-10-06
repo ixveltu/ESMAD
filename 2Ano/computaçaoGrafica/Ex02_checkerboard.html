@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Checkerboard</title>
+  <style>
+    canvas {
+      border: 3px solid orange;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+    <h1>Checkerboard</h1>
+    <input type="button" value="DRAW" onclick="draw()"> </input>
+    Number of squares <input type="number" value=5 min="3" max="100" id="N">
+    Square dimensions <input type="number" value=50 min="10" max="100" id="D">
+
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+  </div>
+
+  <script>
+
+    //globals
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = "black";
+
+    let W = canvas.width;
+    let H = canvas.height;
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H); // clear canvas 
+
+      //get data from inputs
+      let N = document.querySelector('#N').value; //N squares
+      let D = document.querySelector('#D').value; //D square size
+      let x, y; //posiçao dos quadrados
+      for (let i = 0; i < N; i++) {
+        for (let j = 0; j < N; j++) {
+          if ((i + j) % 2 == 0) { //even square
+            x = i * D;
+            y = j * D;
+            ctx.fillRect(x, y, D, D);
+          }
+        }
+      }
+
+
+    }
+  </script>
+</body>
+
+</html>
