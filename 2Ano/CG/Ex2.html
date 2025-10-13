@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>INTERACTIONS</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>Notepad</h1>
+        <canvas id="canvas" width="300" height="250" style="border:solid 1px green"></canvas>
+        <input type="button" value="CLEAN" onclick="clean()">
+    </div>
+
+    
+
+    <script>
+
+        let word ="";
+        const canvas = document.querySelector("#canvas");
+        const ctx = canvas.getContext("2d");
+
+        const W = canvas.width;
+        const H = canvas.height;
+
+        let x = 10;
+        let y = 50;
+
+        function clean(){
+            ctx.clearRect(0, 0, W, H);
+            x = 10
+            y = 50
+        }
+
+        window.addEventListener("keydown", (e) => {
+            const key = e.key;
+
+            console.log(key);
+
+            if (key === "Backspace") {
+                word = word.slice(0, -1); // tirar ultima letra da word
+                clean();    // limpar o canvas
+                ctx.font = "15px Arial";
+                ctx.fillStyle = "black";
+                ctx.fillText(word, x, y);   // escrever a word sem a ultima letra
+            }  
+            else if (key.length === 1){
+
+            word += key;
+            ctx.font = "15px Arial";
+            ctx.fillStyle = "black";
+            ctx.fillText(word, x, y);
+        }
+        });
+
+        //TODO
+ 
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>INTERACTIONS</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="300" height="250" style="border:solid 1px green">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+
+    <script>
+        const canvas = document.querySelector("#canvas");
+        const ctx = canvas.getContext("2d");
+
+        const W = canvas.width;
+        const H = canvas.height;
+
+        //circle properties
+        ctx.fillStyle = "blue";
+        const R = 20;
+
+        onkeydown = (e) => {
+            const key = e.key;
+
+            // Get the current position of the circle
+            let circleX = parseInt(ctx.circleX) || W / 2;
+            let circleY = parseInt(ctx.circleY) || H / 2;
+
+            // Update the position based on arrow key input
+            if (key === "ArrowUp") {
+                circleY -= 5;
+            } else if (key === "ArrowDown") {
+                circleY += 5;
+            } else if (key === "ArrowLeft") {
+                circleX -= 5;
+            } else if (key === "ArrowRight") {
+                circleX += 5;
+            }
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, W, H);
+
+            // Draw the circle at the new position
+            ctx.beginPath();
+            ctx.arc(circleX, circleY, R, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Store the new position
+            ctx.circleX = circleX;
+            ctx.circleY = circleY;
+        };
+
+        // TODO
+
+    </script>
+</body>
+
+</html>

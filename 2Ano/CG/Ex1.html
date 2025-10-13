@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>INTERACTIONS (mouse)</title>
+</head>
+
+<body>
+    <div style="text-align: center";>
+        <h1>Drawing</h1>
+        <input type="button" value="CLEAR" onclick="clearCanvas()"> </input>
+        <canvas id="canvas" width="300" height="250" style="border:solid 1px green"> </canvas>
+    </div>
+
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext("2d");
+    
+        let x = 0, y = 0; // Track the previous position
+    
+        // Clear the canvas
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);   
+        }
+    
+        // Add the event listener for mousemove
+        canvas.addEventListener('mousemove', (e) => {
+            const newX = e.offsetX;
+            const newY = e.offsetY;
+    
+            ctx.beginPath();
+            ctx.moveTo(x, y); // começa na posição anterior
+            ctx.lineTo(newX, newY); // desenhar ate a nova posiçao do rato 
+            ctx.stroke();
+    
+
+            x = newX;
+            y = newY; // muda a posição anterior para a nova
+        });
+    
+        // Initialize the starting position when the mouse enters the canvas
+        canvas.addEventListener('mouseenter', (e) => {
+            x = e.offsetX;
+            y = e.offsetY;
+        });
+    </script>
+</body>
+
+</html>
