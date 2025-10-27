@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TESTES</title>
+</head>
+
+<body>
+    <div style="text-align: center";>
+        <h1>Drawing</h1>
+        <input type="button" value="CLEAR" onclick="clearCanvas()"> </input>
+        <input type="button" value="DRAW" onclick="draw()"> </input>
+        <input type="button" value="HOUSE" onclick="house()"> </input>
+        <canvas id="canvas" width="300" height="250" style="border:solid 1px green"> </canvas>
+    </div>
+
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const ctx = canvas.getContext("2d");
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        function draw(){
+            ctx.beginPath();    // dar inicio ao desenho
+            ctx.moveTo(10,100);     // mover o ponto inicial do desenho
+            ctx.lineTo(100,100);    // definir o ponto final do desenho
+            ctx.stroke();   // mandar fazer o desenho
+        }
+        function house(){
+            ctx.beginPath();
+            ctx.moveTo(50,100);
+            ctx.lineTo(50,200);
+            ctx.lineTo(150,200);
+            ctx.lineTo(150,100);
+            ctx.lineTo(50,100);
+            ctx.moveTo(50,100);
+            ctx.lineTo(100,50);
+            ctx.lineTo(150,100);
+            ctx.stroke();
+        }
+    </script>
+</body>
+
+</html>

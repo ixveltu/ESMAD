@@ -29,21 +29,36 @@
   <script>
     const canvas = document.querySelector("#myCanvas");
     const ctx = canvas.getContext("2d");
+    let running = false;
 
     //CANVAS SIZE
     const W = canvas.width, H = canvas.height;
 
-    let x = 0; let moveRight = true;
+    let x = 0; 
+    let moveRight = true;
 
     function render() {
-      //CLEAR CANVAS
-      ctx.clearRect(0, 0, W, H);
-      // UPDATE COLOR
-      ctx.fillStyle = getRandomColor();
-      // DRAW
-      ctx.fillRect(x, 0, 50, 50);
 
-      requestAnimationFrame(render);
+      ctx.clearRect(0, 0, W, H);  // clear canvas
+
+      ctx.fillStyle = getRandomColor(); // get a random color
+
+      ctx.fillRect(x, 0, 50, 50); // draw the square
+      if (moveRight) {
+        x += 10; // move right
+        ctx.fillStyle = "rgba(51, 51, 51, 0.3)"; 
+        ctx.fillRect(x-1, 0, 50, 50); // draw the square
+      if (x === 550) { // if it goes out of bounds
+          moveRight = false; // change direction
+        }
+      }
+      if (!moveRight) {
+        x -= 10; // move left
+        if (x === 0) { // if it goes out of bounds
+          moveRight = true; // change direction
+        }
+      }
+      requestAnimationFrame(render);  // request next frame
     }
 
     window.onload = function () {

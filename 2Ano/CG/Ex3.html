@@ -40,20 +40,56 @@
                 circleX += 5;
             }
 
+            // Ensure it can move with WASD keys as well
+            else if (key === "w" || key === "W") {
+                circleY -= 5;
+            } else if (key === "s" || key === "S") {
+                circleY += 5;
+            } else if (key === "a" || key === "A") {
+                circleX -= 5;
+            } else if (key === "d" || key === "D") {
+                circleX += 5;
+            }
+
+            // Ensure the circle moves diagonally with combinations of keys
+            if ((e.key === "ArrowUp" || e.key === "w" || e.key === "W") && (e.key === "ArrowLeft" || e.key === "a" || e.key === "A")) {
+                circleX -= 5;
+                circleY -= 5;
+            } else if ((e.key === "ArrowUp" || e.key === "w" || e.key === "W") && (e.key === "ArrowRight" || e.key === "d" || e.key === "D")) {
+                circleX += 5;
+                circleY -= 5;
+            } else if ((e.key === "ArrowDown" || e.key === "s" || e.key === "S") && (e.key === "ArrowLeft" || e.key === "a" || e.key === "A")) {
+                circleX -= 5;
+                circleY += 5;
+            } else if ((e.key === "ArrowDown" || e.key === "s" || e.key === "S") && (e.key === "ArrowRight" || e.key === "d" || e.key === "D")) {
+                circleX += 5;
+                circleY += 5;
+            }
+
+            // Ensure the circle stays within bounds
+            circleX = Math.max(R, Math.min(W - R, circleX));
+            circleY = Math.max(R, Math.min(H - R, circleY));
+
             // Clear the canvas
             ctx.clearRect(0, 0, W, H);
-
+            
             // Draw the circle at the new position
             ctx.beginPath();
             ctx.arc(circleX, circleY, R, 0, Math.PI * 2);
             ctx.fill();
-
+            
             // Store the new position
             ctx.circleX = circleX;
             ctx.circleY = circleY;
         };
+        
+        // Initial circle position
+        ctx.circleX = W / 2;
+        ctx.circleY = H / 2;
+        ctx.beginPath();
+        ctx.arc(ctx.circleX, ctx.circleY, R, 0, Math.PI * 2);
+        ctx.fill();
 
-        // TODO
 
     </script>
 </body>

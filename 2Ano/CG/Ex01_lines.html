@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PATHS & LINES</title>
+  <style>
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="EXERCISE 1" onclick="ex1()" />
+  <input type="button" value="EXERCISE 2" onclick="ex2()" />
+  <input type="button" value="EXERCISE 3" onclick="ex3()" />
+  <input type="button" value="EXERCISE 4" onclick="ex4()" />
+  <canvas id="myCanvas" width="500" height="200" style="border:solid 3px orange">
+    Your browser does not support HTML5 Canvas.
+  </canvas>
+
+  <script>
+    const canvas = document.querySelector("#myCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function ex1() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+      
+      ctx.beginPath();
+      ctx.moveTo(50,50);
+      ctx.lineTo(200,50);
+      ctx.lineTo(200,150);
+      ctx.lineTo(50,150);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fillStyle = "red";
+      ctx.fill();
+    }
+
+    function ex2() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      ctx.beginPath();
+      ctx.moveTo(50,50);
+      ctx.lineTo(50,200);
+      ctx.lineTo(150,50);
+      ctx.lineTo(150,200);
+      ctx.lineTo(250,50);
+      ctx.lineTo(250,200);
+      ctx.stroke();
+    }
+
+    function ex3() {
+      running = false; // Stop the animation if it's running
+      ctx.clearRect(0, 0, canvas.width, canvas.height); //erase Canvas
+
+      ctx.beginPath();
+          ctx.moveTo(50,100);
+          ctx.lineTo(50,200);
+          ctx.lineTo(150,200);
+          ctx.lineTo(150,100);
+          ctx.lineTo(50,100);
+          ctx.moveTo(50,100);
+          ctx.lineTo(100,50);
+          ctx.lineTo(150,100);
+          ctx.stroke();
+    }
+
+    //CANVAS SIZE
+    const W = canvas.width;
+    const H = canvas.height;
+    let running = false; // Declare running in the outer scope
+
+    function ex4() {
+      ctx.clearRect(0, 0, W, H); //erase Canvas
+      running = true; // Set running to true when ex4 is called
+      render(); // invoca a função de animação
+    }
+
+    function render() {
+      if (!running) return; // se running for false, sai da função
+
+      ctx.beginPath();
+      ctx.moveTo(250,100);
+      ctx.lineTo(Math.random()*W, Math.random()*H);
+      ctx.strokeStyle = getRandomColor();
+      ctx.stroke();
+
+      requestAnimationFrame(render); // chama render novamente para o próximo frame
+    }
+
+
+    //helper function
+    function getRandomColor() {
+      let r = Math.floor(Math.random() * 256);
+      let g = Math.floor(Math.random() * 256);
+      let b = Math.floor(Math.random() * 256);
+
+      return `rgb(${r},${g},${b})`;
+    }
+
+  </script>
+</body>
+
+</html>

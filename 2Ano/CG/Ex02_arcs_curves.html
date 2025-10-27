@@ -31,19 +31,72 @@
     function ex1() {
       ctx.clearRect(0, 0, W, H); //erase Canvas
 
-      //TODO
+      ctx.beginPath();
+      ctx.arc(100, 100, 50, 0,Math.PI * 2);  //a meio do canvas com raio 50 e 360 graus
+      ctx.fillStyle = "blue";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(200, 100, 50, 0,Math.PI);  //a 200,100 do canvas com raio 100 e 180 graus
+      ctx.fillStyle = "red";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(200, 100, 50, Math.PI, Math.PI * 2);  // a 200,100 do canvas com raio 50 e 180 graus, parte inferior
+      ctx.fillStyle = "yellow";
+      ctx.fill();
+      
     }
 
     function ex2() {
       ctx.clearRect(0, 0, W, H); //erase Canvas
 
-      //TODO
+      lineWidth = 10;
+
+      ctx.beginPath();
+      ctx.arc(100,100,40,0,Math.PI * 2)
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = "blue";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(200,100,40,0,Math.PI * 2)
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(300,100,40,0,Math.PI * 2)
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = "red";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(150,140,40,0,Math.PI * 2)
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = "yellow";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(250,140,40,0,Math.PI * 2)
+      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = "green";
+      ctx.stroke();
     }
 
     function ex3() {
       ctx.clearRect(0, 0, W, H); //erase Canvas
 
-      //TODO
+      ctx.beginPath();
+
+      ctx.moveTo(250,80);
+      
+      ctx.bezierCurveTo(250,10,50,10,50,80);
+      ctx.bezierCurveTo(40,200,200,200,250,300);
+      ctx.bezierCurveTo(300,200,460,200,450,80);
+      ctx.bezierCurveTo(450,10,205,10,250,80);
+      ctx.fillStyle = "red";
+      ctx.fill();
     }
 
 
