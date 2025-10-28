@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoSort – Menu Inicial</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #a8e063, #56ab2f);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3rem;
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px #00000040;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(2, 200px);
+      grid-gap: 20px;
+    }
+
+    .menu button {
+      background-color: white;
+      border: none;
+      border-radius: 16px;
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu button:hover {
+      transform: scale(1.05);
+      background-color: #e2f7d3;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      color: #ffffffb0;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>♻️ EcoSort</h1>
+
+  <div class="menu">
+    <button onclick="window.location.href='game.html'">Jogar</button>
+    <button onclick="alert('Arrasta ou apanha o lixo correto! Usa o rato ou teclado.')">Como Jogar</button>
+    <button onclick="window.location.href='options.html'">Opções</button>
+    <button onclick="alert('ODS 12: Consumo e Produção Responsáveis – reduzir o desperdício e promover reciclagem.')">ODS 12</button>
+    <button onclick="alert('EcoSort © 2025 – desenvolvido por [teu nome]. Recursos CC.')">Créditos</button>
+  </div>
+
+  <footer>EcoSort – Jogo educativo sobre reciclagem</footer>
+</body>
+</html>
