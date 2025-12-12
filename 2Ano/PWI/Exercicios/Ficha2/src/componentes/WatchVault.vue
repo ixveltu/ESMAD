@@ -31,17 +31,29 @@
    </option>
   </select>
   <br>
+  
+  <select name="order" id="orderId" v-model="this.order">
+    <option v-for="order in orders" :key="order" :value="order">
+      {{ order }}
+    </option>
+    <label v-for="sort in sorts" :key="sort">
+      <input type="radio" :value="sort" v-model="this.sort" required/>
+    {{ sort }}
+    </label>
+  </select>
+  <br>
 
   <button @click="addWatchList"> Adicionar a Watch List</button>
   <button @click="clearForm"> Limpar Forms</button>
   <br>
+
 
   <li v-for="item in items">
    {{ item.name }}
    {{ item.category }}
    {{ item.rating }}
    {{ item.type }}
-   <button @click="removeItem"></button>
+   <button @click="removeItem(item)"> Remover</button>
   </li>
 
  </form>
@@ -68,15 +80,19 @@ export default {
        rating: "",
      },
 
-     sortBy: "",
-     sortOrder: "Asc",
+     sorts: ["Asc", "Desc"],
      categories: ["Action", "Horror", "Mistery", "Crime", "Comedy"],
      types: ["Series", "Movie"],
      ratings: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+     orders: ["Alfaphet", "Ratings"],
    }
  },
  methods: {
   addWatchList(e) {
+   if (this.serie.name.trim().length < 3) {
+    alert("O título precisa de pelo menos 3 caracteres.");
+    return;
+  }
    e.preventDefault()
    const content = {
     type: this.serie.type,
@@ -93,12 +109,13 @@ export default {
    document.getElementById("form").reset()
   }
   },
-  removeItem(e){
-  e.preventDefault()
-  if (confirm("Are you sure you want to delete ${item.name}?" )){ 
 
+  removeItem(item, e) {
+   e.preventDefault()
+      if (confirm('Are you sure you want to delete ${item.name}?')) {
+      //  this.items.filter()
+    }
   }
-  },
  },
 
  watch: {
