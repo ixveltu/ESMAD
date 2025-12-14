@@ -227,3 +227,333 @@ onMounted(() => {
   console.log('componente montado') // Executa código quando componente é montado
 })
 ```
+------------------------------------------------
+# 📘 Vue.js Cheat Sheet Completa
+
+---
+
+## 🧩 Templates & Renderização
+
+### **Interpolação**
+
+```html
+<p>{{ mensagem }}</p> <!-- Exibe variável do componente -->
+<p>{{ usuario.nome }}</p> <!-- Acede a propriedade de objeto -->
+```
+
+### **Bindings**
+
+```html
+<img :src="urlImagem" alt="Imagem" />
+<button :disabled="desabilitado">Clique</button>
+<input :value="texto" /> <!-- Value dinâmico -->
+```
+
+### **Condições**
+
+```html
+<p v-if="condicao">Sim</p>
+<p v-else-if="outraCondicao">Talvez</p>
+<p v-else>Não</p>
+```
+
+### **Loops**
+
+```html
+<ul>
+  <li v-for="item in lista" :key="item.id">{{ item.nome }}</li>
+</ul>
+```
+
+### **Classes & Estilo Dinâmicos**
+
+```html
+<div :class="{ ativo: estaAtivo, erro: temErro }"></div>
+<div :style="{ color: cor, fontSize: tamanho + 'px' }"></div>
+```
+
+---
+
+## 📝 Forms
+
+### **v-model Básico**
+
+```html
+<input type="text" v-model="nome" placeholder="Seu nome" />
+```
+
+### **Checkbox / Radio**
+
+```html
+<input type="checkbox" v-model="ativo" />
+<label for="check1">Ativo</label>
+
+<input type="radio" value="A" v-model="opcao" /> A
+<input type="radio" value="B" v-model="opcao" /> B
+```
+
+### **Select**
+
+```html
+<select v-model="selecionado">
+  <option value="1">Um</option>
+  <option value="2">Dois</option>
+</select>
+```
+
+### **Modifiers Úteis**
+
+```html
+<input v-model.trim="nome" />  <!-- Remove espaços -->
+<input v-model.number="idade" /> <!-- Converte para número -->
+<input v-model.lazy="email" />   <!-- Atualiza ao perder foco -->
+```
+
+### **Formulário com Prevent**
+
+```html
+<form @submit.prevent="enviarFormulario">
+  <input type="text" v-model="email" />
+  <button type="submit">Enviar</button>
+</form>
+```
+
+---
+
+## ⚡ Eventos
+
+### **Listener Simples**
+
+```html
+<button @click="clicar">Clique</button>
+```
+
+### **Passando Argumentos**
+
+```html
+<button @click="acao(5)">Enviar</button>
+```
+
+### **Stop / Prevent**
+
+```html
+<div @click.stop="parar">Não propaga</div>
+<form @submit.prevent="submitForm">...</form>
+```
+
+### **$emit em Componentes**
+
+```vue
+<!-- Filho -->
+<button @click="$emit('evento-personalizado', valor)">Enviar</button>
+
+<!-- Pai -->
+<Filho @evento-personalizado="metodoNoPai" />
+```
+
+---
+
+## 🧱 Componentes
+
+### **Criar Componente (Options API)**
+
+```vue
+<script>
+export default {
+  name: "MeuComponente",
+  props: {
+    titulo: String,
+    ativo: Boolean
+  },
+  methods: {
+    emitirEvento() {
+      this.$emit("clicar", this.titulo)
+    }
+  }
+}
+</script>
+
+<template>
+  <button @click="emitirEvento">{{ titulo }}</button>
+</template>
+```
+
+### **Criar Componente (Composition API)**
+
+```vue
+<script setup>
+const props = defineProps({ titulo: String })
+const emit = defineEmits(["clicar"])
+
+function handleClick() {
+  emit("clicar", props.titulo)
+}
+</script>
+
+<template>
+  <button @click="handleClick">{{ titulo }}</button>
+</template>
+```
+
+### **Usar Componente**
+
+```html
+<MeuComponente titulo="Enviar" @clicar="acaoNoPai" />
+```
+
+---
+
+## 🧭 Vue Router
+
+### **Definir Rotas**
+
+```js
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from './views/HomeView.vue'
+import Projects from './views/ProjectsView.vue'
+import Contact from './views/ContactView.vue'
+
+const routes = [
+  { path: '/', component: Home },
+  { path: '/projects', component: Projects },
+  { path: '/contact', component: Contact }
+]
+
+export const router = createRouter({
+  history: createWebHistory(),
+  routes
+})
+```
+
+### **RouterView**
+
+```vue
+<template>
+  <nav>
+    <router-link to="/">Home</router-link>
+    <router-link to="/projects">Projects</router-link>
+    <router-link to="/contact">Contact</router-link>
+  </nav>
+
+  <router-view />
+</template>
+```
+
+### **Programmatic Navigation**
+
+```js
+this.$router.push('/contact')  // Vue 2
+router.push('/contact')         // Vue 3 setup
+```
+
+### **Parâmetros**
+
+```js
+import { useRoute } from 'vue-router'
+const route = useRoute()
+console.log(route.params.id)
+```
+
+---
+
+## 📦 Pinia
+
+### **Criar Store**
+
+```js
+import { defineStore } from 'pinia'
+
+export const useMainStore = defineStore('main', {
+  state: () => ({
+    contador: 0,
+    nome: 'João'
+  }),
+  getters: {
+    dobrado: state => state.contador * 2
+  },
+  actions: {
+    incrementar() { this.contador++ }
+  }
+})
+```
+
+### **Usar Store**
+
+```js
+import { useMainStore } from '../stores/main'
+const store = useMainStore()
+
+store.incrementar()
+console.log(store.dobrado)
+```
+
+### **v-model com Pinia**
+
+```html
+<input v-model="store.nome" />
+```
+
+---
+
+## 🧰 Composition API
+
+```js
+import { ref, reactive, computed, watch, onMounted } from 'vue'
+
+const nome = ref('')  // variável simples reativa
+const dados = reactive({ idade: 20 })
+
+const mensagem = computed(() => `Olá ${nome.value}`)
+
+watch(nome, (novo, antigo) => { console.log('mudou', novo) })
+
+onMounted(() => console.log('Componente montado'))
+```
+
+---
+
+## 🔁 Reutilizáveis Comuns
+
+### **Lista com v-for + checkbox + $emit**
+
+```vue
+<TaskItem
+  v-for="task in tasks"
+  :key="task.id"
+  :task="task"
+  @toggle-task="toggleTask"
+  @delete-task="deleteTask"
+/>
+```
+
+### **Form com input e botão**
+
+```vue
+<TaskInput @add-task="addTask" />
+```
+
+### **Exemplo de método emit em filho**
+
+```js
+methods: {
+  toggleTask() {
+    this.$emit('toggle-task', this.task.id)
+  },
+  deleteTask() {
+    this.$emit('delete-task', this.task.id)
+  }
+}
+```
+
+### **Adicionar item ao array no pai**
+
+```js
+addTask(desc) {
+  this.tasks.push({
+    id: crypto.randomUUID(),
+    description: desc,
+    completed: false
+  })
+}
+```
+

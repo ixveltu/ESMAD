@@ -1,20 +1,31 @@
 <template>
- <div>
-  <input type="text" placeholder="Description" required v-model="task.description">
-  <button @click="() => console.log(task.description) ">Add task</button>
+ <div class="task-input">
+   <input
+     type="text" v-model="text" placeholder="Nova tarefa" @keyup.enter="addTask"/>
+   <button @click="addTask">Adicionar</button>
  </div>
 </template>
 
 <script>
- export default {
-  data() {
+export default {
+ name: "TaskInput",
+
+ data() {
    return {
-    
+     text: "" // estado local do input
+   };
+ },
+
+ methods: {
+   addTask() {
+     if (!this.text.trim()) return; // evita enviar vazio
+     this.$emit("add-task", this.text); // envia para o pai
+     this.text = ""; // limpa input
    }
-  }
  }
+};
 </script>
 
-<style lang="scss" scoped>
+<style>
 
 </style>
