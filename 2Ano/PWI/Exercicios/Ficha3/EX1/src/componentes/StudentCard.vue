@@ -1,42 +1,29 @@
 <template>
  <div class="student-card">
-   <p><strong>Nome:</strong> {{ name }}</p>
-   <p><strong>Nº Aluno:</strong> {{ studentNumber }}</p>
-   <p><strong>Curso:</strong> {{ course }}</p>
-   <p><strong>Ano:</strong> {{ year }}</p>
+   <p><strong>Nome:</strong> {{ student.name }}</p>
+   <p><strong>Nº Aluno:</strong> {{ student.number }}</p>
+   <p><strong>Curso:</strong> {{ student.course }}</p>
+   <p><strong>Ano:</strong> {{ student.year }}</p>
  </div>
 </template>
 
 <script>
 export default {
- name: "StudentCard",
 
  props: {
-   name: {
-     type: String,
-     required: true
-   },
-
-   studentNumber: {
-     type: Number,
-     required: true,
-     validator(value) {
-       return value > 0 // número positivo tem de ser value porque validator recebe valor da prop como argumento
-     }
-   },
-
-   course: {
-     type: String,
-     default: "TSIW"
-   },
-
-   year: {
-     type: Number,
-     default: 2,
-     validator(value) {
-       return value >= 1 && value <= 3 // entre 1 e 3 
-     }
-   }
+  student: [
+    {
+      type: Object,
+      required: true,
+      validator(stu) {
+        const hasName = typeof stu.name === "string" && stu.name.length > 0;
+        const hasNumber = typeof stu.number === "number" && stu.number.length > 8;
+        const hasCourse = typeof stu.course === "string";
+        const hasYear = typeof stu.year === "number" && stu.number >= 1 && stu.number <= 3;
+          return hasName && hasNumber && hasCourse && hasYear;
+      },
+    },
+  ]
  }
 }
 </script>

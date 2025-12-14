@@ -4,17 +4,13 @@
     <!-- v-for para cada aluno -->
     <StudentCard
       v-for="student in students"
-      :key="student.studentNumber"
-      :name="student.name"
-      :studentNumber="student.studentNumber"
-      :course="student.course"
-      :year="student.year"
+      :student = "student"
     />
   </div>
 </template>
 
 <script>
-import StudentCard from './componentes/StudentCard.vue';
+import StudentCard from '@/componentes/StudentCard.vue';
 
 export default {
   components: { StudentCard },
@@ -22,9 +18,9 @@ export default {
   data() {
     return {
       students: [
-        { name: "Afonso", studentNumber: 40220467, course: "TSIW", year: 1 },
-        { name: "Eduardo", studentNumber: 40230469, course: "TSIW", year: 2 },
-        { name: "Bruno", studentNumber: 40240478, course: "TSIW", year: 3 }
+        { name: "Afonso", number: 40220467, course: "TSIW", year: 1 },
+        { name: "Eduardo", number: 40230469, course: "TSIW", year: 2 },
+        { name: "Bruno", number: 40240478, course: "TSIW", year: 3 }
       ]
     }
   }

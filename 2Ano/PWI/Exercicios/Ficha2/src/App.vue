@@ -3,7 +3,7 @@ import counter from "./componentes/counter.vue"
 import WatchVault from "./componentes/WatchVault.vue"
 
 export default{
-  components:{
+  components: {
     counter,
     WatchVault
   }

@@ -1,8 +1,16 @@
 <script>
-import ProductCard from '../src/component/ProductCard.vue';
+import ProductList from '@/component/ProductList.vue';
+
+export default {
+  components: {
+    ProductList,
+  }
+}
 </script>
 
 <template>
+
+<ProductList />
 
 </template>
 
