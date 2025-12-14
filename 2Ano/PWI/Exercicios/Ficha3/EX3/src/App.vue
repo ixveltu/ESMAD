@@ -1,11 +1,18 @@
-<script setup></script>
+<script>
+  import MovieReview from '@/component/MovieReview.vue';
+
+  export default {
+    components: {
+      MovieReview,
+    }
+  }
+
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+
+  <MovieReview />
+
 </template>
 
 <style scoped></style>

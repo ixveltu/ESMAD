@@ -28,9 +28,9 @@ export default {
  },
 
  methods: {
-   setRating(value) {
-     this.rating = value;
-     this.$emit("rating-changed", value);
+   setRating(rat) {
+     this.rating = rat;
+     this.$emit("ratingChanged", rat);
    }
  }
 };
