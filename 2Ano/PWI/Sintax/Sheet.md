@@ -46,13 +46,14 @@
 ### **v-model básico**
 
 ```html
-<input v-model="texto" /> <!-- Faz two-way binding, sincroniza valor do input com a variável 'texto' -->
+<input type="text" v-model="texto" /> <!-- Faz two-way binding, sincroniza valor do input (caixa de texto) com a variável 'texto' -->
 ```
 
 ### **v-model em checkbox / radio**
 
 ```html
 <input type="checkbox" v-model="ativo" /> <!-- true/false dependendo se está marcado -->
+<label :for="objeto"> Completed </label> <!-- label para checkbox e radio button -->
 <input type="radio" value="A" v-model="opcao" /> <!-- Seleciona o valor A se o radio estiver marcado -->
 ```
 

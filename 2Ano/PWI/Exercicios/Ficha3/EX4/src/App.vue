@@ -1,11 +1,18 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+ <div id="app">
+   <TaskManager />
+ </div>
 </template>
 
-<style scoped></style>
+<script>
+import TaskManager from './components/TaskManager.vue';
+
+export default {
+ name: 'App',
+ components: { TaskManager }
+};
+</script>
+
+<style>
+
+</style>

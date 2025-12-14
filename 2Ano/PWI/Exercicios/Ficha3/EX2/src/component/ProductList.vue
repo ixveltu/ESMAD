@@ -22,21 +22,18 @@
        name: "Teclado Mecânico",
        price: 79.99,
        image: "https://example.com/teclado.jpg",
-       inStock: true,
        stock: 6,
       },
       {
        name: "Rato Gamer",
        price: 49.99,
        image: "https://example.com/rato.jpg",
-       inStock: true,
        stock: 1,
       },
       {
        name: "Monitor 24''",
        price: 149.99,
        image: "https://example.com/monitor.jpg",
-       inStock: true,
        stock: 4,
       }
     ]

@@ -10,12 +10,11 @@
 <script>
 import RatingStars from '@/component/RatingStars.vue';
 
-
-
  export default {
-    components: {
+  components: {
    RatingStars,
-  }, 
+  },
+
   data() {
    return {
     title: "Dune",
