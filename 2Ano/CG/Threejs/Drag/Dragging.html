@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <title>THREE.js - Move X / Shift Move Y</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+   body {
+    margin: 0;
+    overflow: hidden;
+   }
+  </style>
+
+  <script type="importmap">
+   {
+    "imports": {
+     "three": "https://unpkg.com/three/build/three.module.js",
+     "three/addons/": "https://unpkg.com/three/examples/jsm/"
+    }
+   }
+  </script>
+ </head>
+
+ <body>
+  <script type="module">
+   import * as THREE from "three";
+   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+   import { TransformControls } from "three/addons/controls/TransformControls.js";
+
+   let scene, camera, renderer;
+   let orbitControls, transformControls;
+   let raycaster = new THREE.Raycaster();
+   let mouse = new THREE.Vector2();
+
+   let objects = [];
+   let isShiftPressed = false;
+
+   init();
+   animate();
+
+   function init() {
+    // Renderer
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x888888);
+    document.body.appendChild(renderer.domElement);
+
+    // Scene
+    scene = new THREE.Scene();
+
+    // Camera
+    camera = new THREE.PerspectiveCamera(
+     45,
+     window.innerWidth / window.innerHeight,
+     0.1,
+     1000
+    );
+    camera.position.set(0, 50, 100);
+    camera.lookAt(0, 0, 0);
+
+    // Orbit Controls
+    orbitControls = new OrbitControls(camera, renderer.domElement);
+
+    // Transform Controls
+    transformControls = new TransformControls(camera, renderer.domElement);
+    transformControls.setMode("translate");
+
+    // 👉 Começa APENAS no eixo X
+    transformControls.showX = true;
+    transformControls.showY = false;
+    transformControls.showZ = false;
+
+    scene.add(transformControls);
+
+    // Desativar orbit enquanto arrasta
+    transformControls.addEventListener("dragging-changed", (event) => {
+     orbitControls.enabled = !event.value;
+    });
+
+    // Light
+    const light = new THREE.PointLight(0xffffff, 5000);
+    light.position.set(0, 50, 100);
+    scene.add(light);
+
+    // Grid
+    scene.add(new THREE.GridHelper(100, 10));
+
+    // Cubo esquerdo
+    const leftBox = new THREE.Mesh(
+     new THREE.BoxGeometry(20, 20, 20),
+     new THREE.MeshLambertMaterial({ color: 0xff2211 })
+    );
+    leftBox.position.set(-50, 10, 0);
+    scene.add(leftBox);
+    objects.push(leftBox);
+
+    // Cubo direito
+    const rightBox = new THREE.Mesh(
+     new THREE.BoxGeometry(20, 20, 20),
+     new THREE.MeshLambertMaterial({ color: 0x22ff11 })
+    );
+    rightBox.position.set(50, 10, 0);
+    scene.add(rightBox);
+    objects.push(rightBox);
+
+    // Events
+    window.addEventListener("resize", onResize);
+    window.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("keyup", onKeyUp);
+   }
+
+   function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+   }
+
+   function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+   }
+
+   function onPointerDown(event) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(objects);
+
+    if (intersects.length > 0) {
+     transformControls.attach(intersects[0].object);
+    }
+   }
+
+   function onKeyDown(event) {
+    if (event.key === "Shift" && !isShiftPressed) {
+     isShiftPressed = true;
+
+     // 👉 Só eixo Y
+     transformControls.showX = false;
+     transformControls.showY = true;
+     transformControls.showZ = false;
+    }
+   }
+
+   function onKeyUp(event) {
+    if (event.key === "Shift") {
+     isShiftPressed = false;
+
+     // 👉 Volta para eixo X
+     transformControls.showX = true;
+     transformControls.showY = false;
+     transformControls.showZ = false;
+    }
+   }
+  </script>
+ </body>
+</html>
