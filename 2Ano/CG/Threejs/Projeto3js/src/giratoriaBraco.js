@@ -84,12 +84,6 @@ mao.position.x = 1.25; // fim do antebraço
 antBraco.add(mao);
 
 // ----------------------------
-// Base
-// ----------------------------
-// const base = new THREE.Mesh(baseGeo, corAmarelo);
-// base.position.x = 1;
-// scene.add(base);
-// ----------------------------
 // Controlo do teclado
 // ----------------------------
 const keys = {};

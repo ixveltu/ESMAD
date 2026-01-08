@@ -1,0 +1,27 @@
+body {
+ margin: 0;
+ overflow: hidden;
+ font-family: Arial, sans-serif;
+}
+#controls {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+ background: rgba(0, 0, 0, 0.8);
+ color: white;
+ padding: 15px;
+ border-radius: 8px;
+ font-size: 13px;
+ line-height: 1.6;
+}
+#controls strong {
+ font-weight: bold;
+}
+.section {
+ margin-top: 8px;
+}
+.tip {
+ margin-top: 8px;
+ font-size: 11px;
+ opacity: 0.8;
+}
