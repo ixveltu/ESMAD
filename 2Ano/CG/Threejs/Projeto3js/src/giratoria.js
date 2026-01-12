@@ -1,6 +1,5 @@
 import * as THREE from "three";
 
-// Scene, Camera, Renderer
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
@@ -16,7 +15,7 @@ renderer.setClearColor(0x87ceeb);
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-// Lighting
+// Luzes
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
 
@@ -29,7 +28,7 @@ dirLight.shadow.camera.top = 50;
 dirLight.shadow.camera.bottom = -50;
 scene.add(dirLight);
 
-// Ground
+// Chao
 const groundGeo = new THREE.PlaneGeometry(200, 200);
 const groundMat = new THREE.MeshStandardMaterial({
  color: 0x4a7c59,
@@ -41,10 +40,10 @@ ground.position.y = 0;
 ground.receiveShadow = true;
 scene.add(ground);
 
-// Physics objects array
+// Lista de objetos para colisao
 const physicsObjects = [];
 
-// Create interactive boxes
+// Caixas
 function createBox(x, z, size, color) {
  const geo = new THREE.BoxGeometry(size, size, size);
  const mat = new THREE.MeshStandardMaterial({ color: color });
@@ -64,7 +63,7 @@ function createBox(x, z, size, color) {
  return mesh;
 }
 
-// Create cylinders
+// Cilindros
 function createCylinder(x, z, radius, height, color) {
  const geo = new THREE.CylinderGeometry(radius, radius, height, 16);
  const mat = new THREE.MeshStandardMaterial({ color: color });
@@ -84,7 +83,7 @@ function createCylinder(x, z, radius, height, color) {
  return mesh;
 }
 
-// Add some objects to interact with
+// Objetos
 createBox(5, 5, 1, 0xff6b6b);
 createBox(7, 3, 0.8, 0x4ecdc4);
 createBox(3, 7, 1.2, 0xffe66d);
@@ -93,7 +92,7 @@ createBox(-5, 5, 1, 0xf38181);
 createCylinder(-7, 3, 0.6, 1, 0xaa96da);
 createBox(-3, -5, 0.9, 0xfcbad3);
 
-// Excavator materials
+// Materiais
 const bodyMat = new THREE.MeshStandardMaterial({ color: 0xffd700 });
 const darkMat = new THREE.MeshStandardMaterial({ color: 0x2c2c2c });
 const trackMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a });
@@ -104,28 +103,28 @@ const cabinMat = new THREE.MeshStandardMaterial({
 });
 const armMat = new THREE.MeshStandardMaterial({ color: 0xff8c00 });
 
-// Main excavator group
+// Giratoria
 const excavator = new THREE.Group();
 excavator.position.y = 0.3;
 scene.add(excavator);
 
-// Base/Chassis
+// Base
 const chassisGeo = new THREE.BoxGeometry(3.5, 0.4, 2.5);
 const chassis = new THREE.Mesh(chassisGeo, bodyMat);
 chassis.position.y = 0.2;
 chassis.castShadow = true;
 excavator.add(chassis);
 
-// Tracks (lagartas)
+// lagartas
 function createTrack(side) {
  const trackGroup = new THREE.Group();
 
- // Main track body
+ // Base da lagarta
  const trackBody = new THREE.Mesh(new THREE.BoxGeometry(4, 0.5, 0.8), trackMat);
  trackBody.castShadow = true;
  trackGroup.add(trackBody);
 
- // Track wheels
+ // Lagartas
  for (let i = -1.5; i <= 1.5; i += 0.75) {
   const wheel = new THREE.Mesh(
    new THREE.CylinderGeometry(0.25, 0.25, 0.6, 12),
@@ -152,7 +151,7 @@ const rotatingBase = new THREE.Group();
 rotatingBase.position.y = 0.5;
 excavator.add(rotatingBase);
 
-// Cabin
+// Cabina
 const cabinGeo = new THREE.BoxGeometry(1.8, 1.5, 1.8);
 const cabin = new THREE.Mesh(cabinGeo, bodyMat);
 cabin.position.y = 0.75;
@@ -160,32 +159,32 @@ cabin.position.x = -0.3;
 cabin.castShadow = true;
 rotatingBase.add(cabin);
 
-// Cabin windows
+// Janela
 const windowGeo = new THREE.BoxGeometry(0.1, 1, 1.4);
 const frontWindow = new THREE.Mesh(windowGeo, cabinMat);
 frontWindow.position.set(0.65, 0.75, 0);
 rotatingBase.add(frontWindow);
 
-// Engine housing
+// Motor
 const engineGeo = new THREE.BoxGeometry(1.2, 1, 1.5);
 const engine = new THREE.Mesh(engineGeo, darkMat);
 engine.position.set(-1.2, 0.5, 0);
 engine.castShadow = true;
 rotatingBase.add(engine);
 
-// Exhaust pipe
+// Escape
 const exhaustGeo = new THREE.CylinderGeometry(0.1, 0.1, 1, 8);
 const exhaust = new THREE.Mesh(exhaustGeo, darkMat);
 exhaust.position.set(-1.5, 1.2, 0.4);
 exhaust.castShadow = true;
 rotatingBase.add(exhaust);
 
-// Arm mount point
+// braço da giratoria
 const armMount = new THREE.Group();
 armMount.position.set(0.8, 0.8, 0);
 rotatingBase.add(armMount);
 
-// Upper arm (boom)
+// braço superior
 const upperArmPivot = new THREE.Group();
 armMount.add(upperArmPivot);
 
@@ -195,13 +194,13 @@ upperArm.position.x = 1.5;
 upperArm.castShadow = true;
 upperArmPivot.add(upperArm);
 
-// Joint sphere
+// Articulação do braço superior
 const jointGeo = new THREE.SphereGeometry(0.3, 16, 16);
 const joint1 = new THREE.Mesh(jointGeo, darkMat);
 joint1.castShadow = true;
 upperArmPivot.add(joint1);
 
-// Lower arm (stick) pivot
+// Pivot de braço inferior
 const lowerArmPivot = new THREE.Group();
 lowerArmPivot.position.x = 3;
 upperArmPivot.add(lowerArmPivot);
@@ -216,7 +215,7 @@ lowerArm.position.x = 1.25;
 lowerArm.castShadow = true;
 lowerArmPivot.add(lowerArm);
 
-// Bucket pivot
+// Pivot de balde
 const bucketPivot = new THREE.Group();
 bucketPivot.position.x = 2.5;
 lowerArmPivot.add(bucketPivot);
@@ -225,7 +224,7 @@ const joint3 = new THREE.Mesh(jointGeo, darkMat);
 joint3.castShadow = true;
 bucketPivot.add(joint3);
 
-// Bucket
+// Balde
 const bucketGroup = new THREE.Group();
 bucketPivot.add(bucketGroup);
 
@@ -242,7 +241,7 @@ bucketBottom.rotation.z = -0.3;
 bucketBottom.castShadow = true;
 bucketGroup.add(bucketBottom);
 
-// Bucket teeth
+// Dentes do balde
 for (let i = -0.4; i <= 0.4; i += 0.2) {
  const toothGeo = new THREE.ConeGeometry(0.08, 0.25, 4);
  const tooth = new THREE.Mesh(toothGeo, darkMat);
@@ -252,10 +251,10 @@ for (let i = -0.4; i <= 0.4; i += 0.2) {
  bucketGroup.add(tooth);
 }
 
-// Camera offset from excavator
+// Camera
 const cameraOffset = new THREE.Vector3(-6, 4, 0);
 
-// Controls
+// Controlos
 const keys = {};
 const moveSpeed = 0.08;
 const rotSpeed = 0.03;
@@ -268,14 +267,14 @@ document.addEventListener("keyup", (e) => {
  keys[e.code] = false;
 });
 
-// Get bucket world position for collision detection
+// posiçao de balde
 function getBucketWorldPosition() {
  const worldPos = new THREE.Vector3();
- bucketBottom.getWorldPosition(worldPos);
+ bucketBottom.getWorldPosition(worldPos); // vai buscar a posiçao do balde no espaço
  return worldPos;
 }
 
-// Simple physics collision detection
+// Colisoes
 function checkCollisions() {
  const bucketPos = getBucketWorldPosition();
  const bucketRadius = 0.8;
@@ -291,19 +290,19 @@ function checkCollisions() {
   const collisionDist = bucketRadius + obj.size / 2;
 
   if (distance < collisionDist && distance > 0.01) {
-   // Calculate push direction
+   // Calcular direção
    const pushDir = new THREE.Vector3(
     objPos.x - bucketPos.x,
     objPos.y - bucketPos.y,
     objPos.z - bucketPos.z
    ).normalize();
 
-   // Apply force
+   // Aplicar força
    const force = (collisionDist - distance) * 0.5;
    obj.velocity.add(pushDir.multiplyScalar(force));
   }
 
-  // Apply gravity and friction
+  // Atrito e gravidade
   obj.velocity.y -= 0.01;
   obj.velocity.multiplyScalar(0.95);
 
@@ -354,11 +353,11 @@ function animate() {
  if (keys["KeyQ"]) rotatingBase.rotation.y += rotSpeed;
  if (keys["KeyE"]) rotatingBase.rotation.y -= rotSpeed;
 
- // Comandos do braço de cima
+ // Comandos do braço superior
  if (keys["KeyI"]) upperArmPivot.rotation.z += armSpeed;
  if (keys["KeyK"]) upperArmPivot.rotation.z -= armSpeed;
 
- // Comandos do braço de baixo
+ // Comandos do braço inferior
  if (keys["KeyJ"]) lowerArmPivot.rotation.z += armSpeed;
  if (keys["KeyL"]) lowerArmPivot.rotation.z -= armSpeed;
 
