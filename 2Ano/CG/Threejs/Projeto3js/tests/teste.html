@@ -110,8 +110,8 @@
    const physicsObjects = [];
 
    // Objetos de teste
-   function createBox(x, z, size, color) {
-    const geo = new THREE.BoxGeometry(size, size, size);
+   function createBox(x, z, size, color) { 
+    const geo = new THREE.BoxGeometry(size, size, size); 
     const mat = new THREE.MeshStandardMaterial({ color: color });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(x, size / 2, z);
