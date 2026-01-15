@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const scene = new THREE.Scene();
 
-// Camera
+// Camera com FOV ajustado
 const camera = new THREE.PerspectiveCamera(
  45,
  window.innerWidth / window.innerHeight,
@@ -16,7 +16,7 @@ renderer.setClearColor(0x87ceeb);
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-// Fog
+// Fog para transição entre céu e chão
 scene.fog = new THREE.Fog(0x87ceeb, 50, 200);
 
 // Luzes
@@ -46,7 +46,7 @@ const skyMat = new THREE.MeshBasicMaterial({
 const sky = new THREE.Mesh(skyGeo, skyMat);
 scene.add(sky);
 
-// Chão
+// Chão com textura repetida
 const groundGeo = new THREE.PlaneGeometry(200, 200);
 const groundMat = new THREE.MeshStandardMaterial({
  map: groundTexture,
