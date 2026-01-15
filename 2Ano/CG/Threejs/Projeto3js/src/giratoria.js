@@ -298,7 +298,7 @@ const moveSpeed = 0.08;
 const rotSpeed = 0.03;
 const armSpeed = 0.02;
 
-// Animação em loop
+// Animação
 let isAnimating = false;
 let animationTime = 0;
 
