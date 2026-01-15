@@ -10,7 +10,7 @@ const camera = new THREE.PerspectiveCamera(
  0.1,
  1000
 );
-camera.position.set(-8, 4, 0); // posição inicial mais próxima
+camera.position.set(-8, 4, 0);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -19,7 +19,7 @@ renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
 // Fog
-scene.fog = new THREE.Fog(0x87ceeb, 50, 200);
+scene.fog = new THREE.Fog(0x87ceeb, 50, 130);
 
 // Luzes
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -44,6 +44,7 @@ const skyGeo = new THREE.SphereGeometry(500, 32, 32);
 const skyMat = new THREE.MeshBasicMaterial({
  map: skyTexture,
  side: THREE.BackSide,
+ fog: false,
 });
 const sky = new THREE.Mesh(skyGeo, skyMat);
 scene.add(sky);
@@ -280,13 +281,13 @@ controls.maxPolarAngle = Math.PI / 2;
 
 // Câmera fixa
 const rotatingCamera = new THREE.PerspectiveCamera(
- 55,
+ 70,
  window.innerWidth / window.innerHeight,
  0.1,
  1000
 );
 rotatingCamera.position.set(-8, 3, 0);
-rotatingBase.add(rotatingCamera);
+excavator.add(rotatingCamera);
 
 // controlo de camera
 let activeCamera = mainCamera;
