@@ -5,7 +5,7 @@ const scene = new THREE.Scene();
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
- 55, // FOV
+ 70, // FOV
  window.innerWidth / window.innerHeight, // ratio x/y
  0.1,
  1000
