@@ -1,14 +1,16 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const scene = new THREE.Scene();
 
 // Camera
 const camera = new THREE.PerspectiveCamera(
- 45,
- window.innerWidth / window.innerHeight,
+ 55, // FOV
+ window.innerWidth / window.innerHeight, // ratio x/y
  0.1,
  1000
 );
+camera.position.set(-8, 4, 0); // posição inicial mais próxima
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,7 +34,7 @@ dirLight.shadow.camera.top = 50;
 dirLight.shadow.camera.bottom = -50;
 scene.add(dirLight);
 
-// Textures
+// Texturas
 const textureLoader = new THREE.TextureLoader();
 const groundTexture = textureLoader.load("@/../assets/textures/ground.jpeg");
 const skyTexture = textureLoader.load("@/../assets/textures/sky.jpg");
@@ -267,40 +269,29 @@ for (let i = -0.4; i <= 0.4; i += 0.2) {
  bucketGroup.add(tooth);
 }
 
-// Camera mais afastada
-const cameraOffset = new THREE.Vector3(-12, 3.5, 0);
+// Câmera principal (orbit)
+const mainCamera = camera;
+const controls = new OrbitControls(mainCamera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.minDistance = 3;
+controls.maxDistance = 15;
+controls.maxPolarAngle = Math.PI / 2;
 
-// Orbit Controls (manual com rato)
-let isDragging = false;
-let previousMousePosition = { x: 0, y: 0 };
-let cameraAngleY = 0;
-let cameraAngleX = 0;
+// Câmera fixa
+const rotatingCamera = new THREE.PerspectiveCamera(
+ 55,
+ window.innerWidth / window.innerHeight,
+ 0.1,
+ 1000
+);
+rotatingCamera.position.set(-8, 3, 0);
+rotatingBase.add(rotatingCamera);
 
-renderer.domElement.addEventListener("mousedown", (e) => {
- isDragging = true;
- previousMousePosition = { x: e.clientX, y: e.clientY };
-});
+// controlo de camera
+let activeCamera = mainCamera;
+let useRotatingCamera = false;
 
-renderer.domElement.addEventListener("mousemove", (e) => {
- if (!isDragging) return;
-
- const deltaX = e.clientX - previousMousePosition.x;
- const deltaY = e.clientY - previousMousePosition.y;
-
- cameraAngleY -= deltaX * 0.005;
- cameraAngleX -= deltaY * 0.005;
-
- // Limitar ângulo vertical
- cameraAngleX = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, cameraAngleX));
-
- previousMousePosition = { x: e.clientX, y: e.clientY };
-});
-
-renderer.domElement.addEventListener("mouseup", () => {
- isDragging = false;
-});
-
-// Controlos
 const keys = {};
 const moveSpeed = 0.08;
 const rotSpeed = 0.03;
@@ -317,10 +308,19 @@ document.addEventListener("keydown", (e) => {
   isAnimating = !isAnimating;
   if (isAnimating) animationTime = 0;
  }
- // Reset camera com tecla R
+ // mudar camera
  if (e.code === "KeyR") {
-  cameraAngleY = 0;
-  cameraAngleX = 0;
+  useRotatingCamera = !useRotatingCamera;
+  activeCamera = useRotatingCamera ? rotatingCamera : mainCamera;
+
+  controls.enabled = !useRotatingCamera;
+
+  // Reset câmera
+  if (!useRotatingCamera) {
+   mainCamera.position.set(-6, 3, 0);
+   controls.target.copy(excavator.position);
+   controls.update();
+  }
  }
 });
 
@@ -334,7 +334,7 @@ function getBucketWorldPosition() {
  return worldPos;
 }
 
-// Colisões com balde e corpo da escavadora
+// Colisões
 function checkCollisions() {
  const bucketPos = getBucketWorldPosition();
  const bucketRadius = 0.3;
@@ -362,11 +362,10 @@ function checkCollisions() {
    obj.velocity.add(pushDir.multiplyScalar(force));
   }
 
-  // Colisão com corpo da escavadora - apenas chassis
+  // Colisão com corpo da giratoria
   const chassisBox = new THREE.Box3().setFromObject(chassis);
   const objBox = new THREE.Box3().setFromObject(obj.mesh);
 
-  // Expandir muito pouco o chassis box
   chassisBox.expandByScalar(0.1);
 
   if (chassisBox.intersectsBox(objBox)) {
@@ -379,7 +378,7 @@ function checkCollisions() {
    obj.velocity.add(pushDir.multiplyScalar(0.05));
   }
 
-  // Física
+  // Físicas
   obj.velocity.y -= 0.01;
   obj.velocity.multiplyScalar(0.95);
   obj.mesh.position.add(obj.velocity);
@@ -390,6 +389,10 @@ function checkCollisions() {
    obj.velocity.y = Math.abs(obj.velocity.y) * 0.3;
    obj.velocity.x *= 0.9;
    obj.velocity.z *= 0.9;
+  }
+
+  if (excavator.position.y < 0.3) {
+   excavator.position.y = 0.3;
   }
 
   // Limites
@@ -410,7 +413,7 @@ function animate() {
  const forward = new THREE.Vector3(1, 0, 0);
  forward.applyQuaternion(excavator.quaternion);
 
- // Animação automática com Space
+ // Animação
  if (isAnimating) {
   animationTime += 0.02;
 
@@ -419,7 +422,7 @@ function animate() {
   lowerArmPivot.rotation.z = Math.sin(animationTime * 1.2) * 0.15 + 0.05;
   bucketPivot.rotation.z = Math.sin(animationTime * 1.5) * 0.25 + 0.1;
  } else {
-  // Controlo manual
+  // Controls
   if (keys["KeyW"]) excavator.position.addScaledVector(forward, moveSpeed);
   if (keys["KeyS"]) excavator.position.addScaledVector(forward, -moveSpeed);
   if (keys["KeyA"]) excavator.rotation.y += rotSpeed;
@@ -437,9 +440,9 @@ function animate() {
   if (keys["KeyU"]) bucketPivot.rotation.z += armSpeed;
   if (keys["KeyO"]) bucketPivot.rotation.z -= armSpeed;
 
-  // Limites
+  // Limites de rotacao
   upperArmPivot.rotation.z = Math.max(
-   -Math.PI / 4,
+   -Math.PI / 7,
    Math.min(Math.PI / 2, upperArmPivot.rotation.z)
   );
   lowerArmPivot.rotation.z = Math.max(
@@ -452,36 +455,42 @@ function animate() {
   );
  }
 
+ // colisao para balde nao passar do chao
+ const bucketPos = getBucketWorldPosition();
+ if (bucketPos.y < 0) {
+  upperArmPivot.rotation.z += 0.03;
+ }
+
  checkCollisions();
 
- // Posição da câmera com orbit controls
- const targetCameraPos = excavator.position.clone();
- const offset = cameraOffset.clone();
+ // Atualizar target do OrbitControls e lookAt da câmera fixa
+ if (!useRotatingCamera) {
+  controls.target.copy(excavator.position);
+  controls.target.y += 2;
+  controls.update();
+ } else {
+  // Fazer a câmera fixa olhar para o centro da giratória
+  const lookTarget = new THREE.Vector3();
+  rotatingBase.getWorldPosition(lookTarget);
+  lookTarget.y += 1;
+  rotatingCamera.lookAt(lookTarget);
+ }
 
- // Aplicar rotação do orbit control
- const rotatedOffset = offset.clone();
- rotatedOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), cameraAngleY);
- rotatedOffset.applyAxisAngle(new THREE.Vector3(1, 0, 0), cameraAngleX);
-
- // Aplicar rotação da escavadora
- rotatedOffset.applyQuaternion(excavator.quaternion);
- targetCameraPos.add(rotatedOffset);
-
- camera.position.lerp(targetCameraPos, 0.1);
-
- const lookAtPos = excavator.position.clone();
- lookAtPos.y += 2;
- camera.lookAt(lookAtPos);
-
- renderer.render(scene, camera);
+ renderer.render(scene, activeCamera);
 }
 
 renderer.setAnimationLoop(animate);
 
 // Resize
 window.addEventListener("resize", () => {
- camera.aspect = window.innerWidth / window.innerHeight;
- camera.updateProjectionMatrix();
+ const aspect = window.innerWidth / window.innerHeight;
+
+ mainCamera.aspect = aspect;
+ mainCamera.updateProjectionMatrix();
+
+ rotatingCamera.aspect = aspect;
+ rotatingCamera.updateProjectionMatrix();
+
  renderer.setSize(window.innerWidth, window.innerHeight);
  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
