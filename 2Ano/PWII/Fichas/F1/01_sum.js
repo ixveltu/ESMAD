@@ -13,6 +13,8 @@ if (numbers.some(isNaN)) {
 }
 
 function sum(numbers) {
- const total = a + b;
+ let total = numbers.forEach((number) => {
+  total += number;
+ });
  console.log(`The sum is: ${total}`);
 }
