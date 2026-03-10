@@ -1,0 +1,37 @@
+[
+  {
+    "nome": "Teclado Mecânico",
+    "preco": 89.99,
+    "stock": 14,
+    "emPromocao": true,
+    "descricao": "Teclado mecânico com switches de alta qualidade"
+  },
+  {
+    "nome": "Rato Sem Fios",
+    "preco": 34.5,
+    "stock": 2,
+    "emPromocao": false,
+    "descricao": "Rato sem fios ergonómico com sensor óptico"
+  },
+  {
+    "nome": "Monitor 27",
+    "preco": 349.0,
+    "stock": 0,
+    "emPromocao": true,
+    "descricao": "Monitor LED de 27 polegadas Full HD"
+  },
+  {
+    "nome": "Headset Gaming",
+    "preco": 59.9,
+    "stock": 28,
+    "emPromocao": false,
+    "descricao": "Headset gaming com som surround 7.1"
+  },
+  {
+    "nome": "Webcam HD",
+    "preco": 45.0,
+    "stock": 7,
+    "emPromocao": true,
+    "descricao": "Webcam HD 1080p com microfone integrado"
+  }
+]
