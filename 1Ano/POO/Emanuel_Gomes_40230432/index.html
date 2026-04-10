@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineBox</title>
+  <style>
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+   }
+   body {
+    font-family: system-ui, sans-serif;
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    color: #1a1a1a;
+   }
+   h1 {
+    margin-bottom: 0.25rem;
+   }
+   #film-count {
+    color: #666;
+    margin-bottom: 1.5rem;
+   }
+   #search-input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+   }
+   .film-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+   }
+   .film-card h3 {
+    margin-bottom: 0.25rem;
+   }
+   .film-card p {
+    color: #555;
+    font-size: 0.9rem;
+   }
+   .film-card .rating {
+    font-weight: bold;
+    color: #d4a017;
+    margin: 0.25rem 0;
+   }
+   .film-card button {
+    margin-right: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+   }
+   .film-card button:hover {
+    background: #f0f0f0;
+   }
+   #form-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+   }
+   #form-section h2 {
+    margin-bottom: 0.75rem;
+   }
+   #add-film-form label {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #555;
+   }
+   #add-film-form input {
+    width: 100%;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+   }
+   #add-film-form button {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.5rem;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+   }
+  </style>
+ </head>
+ <body>
+  <h1 id="app-title">CineBox</h1>
+  <p id="film-count"></p>
+  <input type="text" id="search-input" placeholder="Pesquisar..." />
+
+  <div id="film-list"></div>
+
+  <section id="form-section">
+   <h2>Adicionar filme</h2>
+   <form id="add-film-form">
+    <label for="form-title">Título</label>
+    <input type="text" id="form-title" />
+
+    <label for="form-year">Ano</label>
+    <input type="number" id="form-year" />
+
+    <label for="form-genre">Género</label>
+    <input type="text" id="form-genre" />
+
+    <button type="submit">Adicionar</button>
+   </form>
+  </section>
+
+  <script src="script.js"></script>
+ </body>
+</html>
