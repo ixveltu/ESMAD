@@ -1,0 +1,3 @@
+# Binary Target Transformation
+# Setting 'good_wine' as 1 when 'quality' is equal or bigger than 7
+df['good_wine'] = (df['quality'] >= 7).astype(int)
